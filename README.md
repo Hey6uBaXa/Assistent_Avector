@@ -1,4 +1,3 @@
 # Assistent_avector
-# Assistent_Avector
-# Assistent_Avector
-# Assistent_Avector
+Голосове управление роботом UNITREE G1
+Выполнение команд голосом
