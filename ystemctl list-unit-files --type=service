@@ -1,0 +1,88 @@
+[0;4m [0m[0;4m UNIT                              [0m[0;4m LOAD  [0m[0;4m ACTIVE[0m[0;4m SUB    [0m[0;4m DESCRIPTION                                                     [0m
+  accounts-daemon.service            loaded active running Accounts Service                                                
+  alsa-restore.service               loaded active exited  Save/Restore Sound Card State                                   
+[0;1;31m●[0m [0;1;31mapport-autoreport.service         [0m loaded [0;1;31mfailed[0m [0;1;31mfailed [0m Process error reports when automatic reporting is enabled       
+  apport.service                     loaded active exited  LSB: automatic crash report generation                          
+  avahi-daemon.service               loaded active running Avahi mDNS/DNS-SD Stack                                         
+  binfmt-support.service             loaded active exited  Enable support for additional executable binary formats         
+  colord.service                     loaded active running Manage, Install and Generate Color Profiles                     
+  console-setup.service              loaded active exited  Set console font and keymap                                     
+  containerd.service                 loaded active running containerd container runtime                                    
+  cron.service                       loaded active running Regular background program processing daemon                    
+  dbus.service                       loaded active running D-Bus System Message Bus                                        
+  dnsmasq.service                    loaded active running dnsmasq - A lightweight DHCP and caching DNS server             
+  docker.service                     loaded active running Docker Application Container Engine                             
+  gdm.service                        loaded active running GNOME Display Manager                                           
+  haveged.service                    loaded active running Entropy daemon using the HAVEGE algorithm                       
+  hddtemp.service                    loaded active exited  LSB: disk temperature monitoring daemon                         
+  kerneloops.service                 loaded active running Tool to automatically collect and submit kernel crash signatures
+  keyboard-setup.service             loaded active exited  Set the console keyboard layout                                 
+  kmod-static-nodes.service          loaded active exited  Create list of static device nodes for the current kernel       
+  lm-sensors.service                 loaded active exited  Initialize hardware monitoring sensors                          
+  master_service.service             loaded active running LSB: master service init script.                                
+  ModemManager.service               loaded active running Modem Manager                                                   
+  networkd-dispatcher.service        loaded active running Dispatcher daemon for systemd-networkd                          
+  NetworkManager.service             loaded active running Network Manager                                                 
+  nv-l4t-usb-device-mode.service     loaded active exited  Configure USB flashing port for device mode                     
+  nv-tee-supplicant.service          loaded active running OP-TEE Client Supplicant                                        
+  nvargus-daemon.service             loaded active running Argus daemon                                                    
+  nvfancontrol.service               loaded active running nvfancontrol service                                            
+  nvphs.service                      loaded active running PHS daemon                                                      
+  nvs-service.service                loaded active running NVS-SERVICE Embedded Sensor HAL Daemon                          
+  nxserver.service                   loaded active running NoMachine Server daemon                                         
+  ollama.service                     loaded active running Ollama Service                                                  
+  openvpn.service                    loaded active exited  OpenVPN service                                                 
+  ota_pipe.service                   loaded active running LSB: master service init script.                                
+  polkit.service                     loaded active running Authorization Manager                                           
+  rc-local.service                   loaded active exited  /etc/rc.local Compatibility                                     
+  resolvconf.service                 loaded active exited  Nameserver information manager                                  
+  rpcbind.service                    loaded active running RPC bind portmap service                                        
+  rsyslog.service                    loaded active running System Logging Service                                          
+  rtkit-daemon.service               loaded active running RealtimeKit Scheduling Policy Service                           
+  ser2net.service                    loaded active exited  LSB: Allows network connections to serial ports                 
+  serial-getty@ttyAMA0.service       loaded active running Serial Getty on ttyAMA0                                         
+  serial-getty@ttyGS0.service        loaded active running Serial Getty on ttyGS0                                          
+  serial-getty@ttyTCU0.service       loaded active running Serial Getty on ttyTCU0                                         
+  setvtrgb.service                   loaded active exited  Set console scheme                                              
+  snapd.seeded.service               loaded active exited  Wait until snapd is fully seeded                                
+  snapd.service                      loaded active running Snap Daemon                                                     
+  socat_usb1.service                 loaded active running Socat bridge to 192.168.123.210:6000 → /dev/ttyVUSB1            
+  socat_usb2.service                 loaded active running Socat bridge to 192.168.123.211:6000 → /dev/ttyVUSB2            
+  ssh.service                        loaded active running OpenBSD Secure Shell server                                     
+  switcheroo-control.service         loaded active running Switcheroo Control Proxy service                                
+  systemd-journal-flush.service      loaded active exited  Flush Journal to Persistent Storage                             
+  systemd-journald.service           loaded active running Journal Service                                                 
+  systemd-logind.service             loaded active running Login Service                                                   
+  systemd-modules-load.service       loaded active exited  Load Kernel Modules                                             
+  systemd-random-seed.service        loaded active exited  Load/Save Random Seed                                           
+  systemd-remount-fs.service         loaded active exited  Remount Root and Kernel File Systems                            
+  systemd-resolved.service           loaded active running Network Name Resolution                                         
+  systemd-sysctl.service             loaded active exited  Apply Kernel Variables                                          
+  systemd-sysusers.service           loaded active exited  Create System Users                                             
+  systemd-timesyncd.service          loaded active running Network Time Synchronization                                    
+  systemd-tmpfiles-setup-dev.service loaded active exited  Create Static Device Nodes in /dev                              
+  systemd-tmpfiles-setup.service     loaded active exited  Create Volatile Files and Directories                           
+  systemd-udev-trigger.service       loaded active exited  udev Coldplug all Devices                                       
+  systemd-udevd.service              loaded active running udev Kernel Device Manager                                      
+  systemd-update-utmp.service        loaded active exited  Update UTMP about System Boot/Shutdown                          
+  systemd-user-sessions.service      loaded active exited  Permit User Sessions                                            
+  tor.service                        loaded active exited  Anonymizing overlay network for TCP (multi-instance-master)     
+  tor@default.service                loaded active running Anonymizing overlay network for TCP                             
+  ubuntu-fan.service                 loaded active exited  Ubuntu FAN network setup                                        
+  udisks2.service                    loaded active running Disk Manager                                                    
+  unitree-upgrade.service            loaded active running Unitree Upgrade                                                 
+  upower.service                     loaded active running Daemon for power management                                     
+  user-runtime-dir@1000.service      loaded active exited  User Runtime Directory /run/user/1000                           
+  user-runtime-dir@124.service       loaded active exited  User Runtime Directory /run/user/124                            
+  user@1000.service                  loaded active running User Manager for UID 1000                                       
+  user@124.service                   loaded active running User Manager for UID 124                                        
+  voise.service                      loaded active running Voise Assistant Service                                         
+  whoopsie.service                   loaded active running crash report submission daemon                                  
+  wpa_supplicant.service             loaded active running WPA supplicant                                                  
+
+LOAD   = Reflects whether the unit definition was properly loaded.
+ACTIVE = The high-level unit activation state, i.e. generalization of SUB.
+SUB    = The low-level unit activation state, values depend on unit type.
+
+[0;1;39m80 loaded units listed.[0m Pass --all to see loaded but inactive units, too.
+To show all installed unit files use 'systemctl list-unit-files'.

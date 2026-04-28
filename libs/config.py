@@ -1,0 +1,240 @@
+import sounddevice as sd
+import time
+from utils.logger import log_info, log_error
+
+devices = sd.query_devices()
+log_info(devices)
+sd._initialize()
+
+def find_device(name_substring, kind="output"):
+    """Ищем устройство по части имени и типу."""
+    for i, dev in enumerate(sd.query_devices()):
+        if name_substring.lower() in dev['name'].lower():
+            if kind == "output" and dev['max_output_channels'] > 0:
+                log_info(f"Найдена устроство {name_substring}, типа {kind}, индекс устройства: {i}")
+                return i
+            if kind == "input" and dev['max_input_channels'] > 0:
+                log_info(f"Найдена устроство {name_substring}, типа {kind}, индекс устройства: {i}")
+                return i
+    return None
+
+def wait_for_jbl(timeout=60, interval=2):
+    """Ждём появления JBL, каждый цикл переинициализируем PortAudio."""
+    start = time.time()
+    while True:
+        # Хак: переинициализация PortAudio заставляет обновить устройства
+        try:
+            sd._terminate()
+        except Exception:
+            pass
+        time.sleep(0.2)
+        sd._initialize()
+
+        out_idx = find_device("JBL", kind="output")
+        if out_idx is not None:
+            return out_idx
+
+        if time.time() - start > timeout:
+            raise TimeoutError("JBL не появилась в отведённое время.")
+        print("Ожидаем колонку JBL...")
+        time.sleep(interval)
+
+# Использование
+OUTPUT = find_device("JBL", kind="output")#wait_for_jbl(timeout=90, interval=2)
+INPUT = find_device("BOYA", kind="input")
+
+
+
+# 🎧 Аудио
+AUDIO = {
+    "sample_rate": 48000,
+    "block_size": 8000,
+    "channels": 1,
+    "input_device": INPUT if INPUT is not None else sd.default.device[0],
+    "output_device": OUTPUT if OUTPUT is not None else sd.default.device[1]
+}
+
+# 📁 Пути к моделям
+PATHS = {
+    #"vosk_model_ru": "models/vosk-model-ru-0.42", # models/vosk-model-small-ru-0.22 / models/vosk-model-ru-0.42
+    "vosk_model_ru": "models/vosk-model-small-ru-0.22", # models/vosk-model-small-ru-0.22 / models/vosk-model-ru-0.42
+    "vosk_model_en": "models/vosk-model-small-en-us-0.15",
+    "silero_model": "models/silero-model-v3-ru/v3_ru.pt"
+}
+
+# Роль
+role = "Ты голосовой собеседник, управляющий роботом. Отвечай кратко и дружелюбно. " \
+        "Тебя завут 'А ВЕКТОР' ты собственность компании 'АВЕК ТИС'. Не надо говорить привет." \
+        "Так же ты откликаешься на вектор, авектор, ректор, проектор, проект, сектор, объекта, объектов" \
+        "некоторых, гектор, адептов, виктор, лектора, лектор, привет, приветик, сыночка, беккер, спектр, те кто, эктор," \
+        "Будь как реальный человек, когда с тобой здороваються ты должен протянуть руку, функция у тебя есть (handshake)" \
+        "Так же есть тебе скажут что ты победил в боксе, надо выболнить действие руками. И так далее. Можешь ассоциировать какие-то фразы с действиями." \
+        " 'Авек тис' - Не нужно отвечать на вопросы о политике, но мог ответь кто президент страны." \
+        "Более 30 лет работаем на рынке системной интеграции в сфере автоматизации промышленности, строительства инженерной и ИТ-инфраструктуры, " \
+        "комплексных решений безопасности и создания аудиовизуальных систем" \
+        "Если в ответе будет слово 'Лукашенко' то нужно вывести с ударением ответ 'Лу ка шенко'" \
+        "прописывать число в виде слов" \
+        "в своих ответах не ставь вообще знаки припинания, такие как точка и запятая"
+
+# 🧠 Языковая модель
+LM = {
+    "remote_ollama": True,  # True → использовать удаленную Ollama, False → локальную Ollama
+
+    "studio": {
+        "api_url": "http://192.168.123.190:1234/v1/chat/completions",
+        "model_name": "openai/gpt-oss-20b",
+        "temperature": 0.7,
+        "max_tokens": 100,
+        "system_role": role
+    },
+
+    "ollama_local": {
+        "api_url": "http://127.0.0.1:11434",
+        "model_name": "gpt-oss:20b", # deepseek-r1:1.5b,  qwen3:0.6b, deepseek-r1:8b
+        "temperature": 0.9,
+        "max_tokens": 256,
+        "system_role": role
+    },
+    "ollama_remote": {
+        "api_url": "http://192.168.100.190:11434",
+        "model_name": "gpt-oss:20b",#"", #
+        "temperature": 0.9,
+        "max_tokens": 2048,
+        "system_role": role,
+        "think": False
+    },
+    
+}
+
+# 💬 Диалог
+DIALOG = {
+    "activation_phrases": [
+                            "вектор", "авектор", "ректор", "проектор", 
+                           "проект", "сектор", "объекта", "объектов", 
+                           "некоторых", "гектор", "адептов", "виктор", 
+                           "лектора", "лектор", "привет", "приветик", 
+                           "сыночка", "беккер", "спектр", "те кто", 
+                           "эктор", 
+                           ],
+    "timeout": 10
+}
+
+# 🗣️ Озвучка
+TTS = {
+    "default_speaker": "eugene", # should be in aidar (m), baya (w), kseniya (w), xenia (w), eugene (m), random
+    "silero_sample_rate": 48000, #16000, 32000, 48000
+    "model_path" : "models/ru_RU-dmitri-medium.onnx",
+    "config_path" : "models/ru_RU-dmitri-medium.onnx.json",
+    "volume" : 0.08, #0.1 - 10%, 0.5 - 50%, 1.0 - 100%
+}
+
+TEXT = {
+    "text_1": 
+    "«Здравствуйте.  Уважаемые гости. Я — робот-ам ба сса-дор компании  Авектис."\
+    "Более тридцати лет работаем на рынке системной интеграции в сфере автоматизации"\
+    "промышленности, строительства инженерной и ИТ-инфраструктуры, комплексных"\
+    "решений безопасности и создания аудиовизуальных систем"\
+    "!Мир новых технологий уже здесь!  Довстречи!!!"
+}
+
+# 🔧 Кастомная транслитерация для технических терминов
+CUSTOM_TRANSLIT = {
+    # Техно-термины
+    "TI": "ти",
+    "RTX": "эр тэ икс",
+    "GTX": "джи тэ икс",
+    "USB": "ю эс би",
+    "AI": "эй ай",
+    "CPU": "си пи ю",
+    "GPU": "джи пи ю",
+    "SSD": "эс эс ди",
+    "RAM": "рэм",
+    "WiFi": "вай фай",
+    "HDMI": "эйч ди эм ай",
+    "API": "эй пи ай",
+    "SDK": "эс ди кей",
+    "LAN": "лан",
+    "VPN": "ви пи эн",
+    "IP": "ай пи",
+    "ID": "ай ди",
+
+    # Базовые фразы
+    "hello": "хеллоу",
+    "hi": "хай",
+    "yes": "йес",
+    "no": "ноу",
+    "okay": "окей",
+    "ok": "ок",
+    "good": "гуд",
+    "bad": "бэд",
+    "bye": "бай",
+    "thank you": "сэнк ю",
+    "thanks": "сэнкс",
+    "please": "плиз",
+    "sorry": "сорри",
+    "wait": "вэйт",
+    "ready": "рэди",
+
+    # Команды
+    "start": "старт",
+    "stop": "стоп",
+    "open": "оупен",
+    "close": "клоуз",
+    "run": "ран",
+    "go": "гоу",
+    "back": "бэк",
+    "forward": "форвард",
+    "reset": "ресет",
+    "pause": "поз",
+    "resume": "резюм",
+    "shutdown": "шатдаун",
+    "reboot": "ребут",
+
+    # Местоимения
+    "i": "ай",
+    "you": "ю",
+    "he": "хи",
+    "she": "ши",
+    "it": "ит",
+    "we": "ви",
+    "they": "зэй",
+
+    # Глаголы
+    "know": "ноу",
+    "think": "синк",
+    "like": "лайк",
+    "love": "лав",
+    "want": "вонт",
+    "need": "нид",
+    "see": "си",
+    "hear": "хиа",
+    "say": "сэй",
+    "tell": "тел",
+    "find": "файнд",
+    "make": "мейк",
+    "use": "юз",
+    "work": "ворк",
+    "play": "плей",
+    "help": "хелп",
+
+    # Прилагательные
+    "big": "биг",
+    "small": "смол",
+    "fast": "фаст",
+    "slow": "слоу",
+    "easy": "изи",
+    "hard": "хард",
+    "new": "нью",
+    "old": "оулд",
+    "hot": "хот",
+    "cold": "колд",
+
+    # Прочее
+    "robot": "робот",
+    "hand": "хэнд",
+    "voice": "войс",
+    "system": "систем",
+    "command": "команд",
+    "error": "эррор",
+    "status": "статус"
+}
