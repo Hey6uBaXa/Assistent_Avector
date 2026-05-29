@@ -3,7 +3,7 @@ import json
 import time
 import sounddevice as sd
 from vosk import Model, KaldiRecognizer
-from libs.config import AUDIO, PATHS
+from libs.config import AUDIO, STT
 from utils.logger import log_info, log_error
 from robot_interface import RobotInterface
 import numpy as np
@@ -44,7 +44,7 @@ class STTEngine:
 
     def load_model(self, lang):
         try:
-            path = PATHS["vosk_model_ru"] if lang == "ru" else PATHS["vosk_model_en"]
+            path = STT["vosk_model_ru"] if lang == "ru" else STT["vosk_model_en"]
             log_info(f"Loading Vosk model: {path}")
             return Model(path)
         except Exception as e:

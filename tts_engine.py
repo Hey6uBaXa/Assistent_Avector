@@ -6,7 +6,7 @@ import numpy as np
 import sounddevice as sd
 import soundfile as sf
 
-from libs.config import TTS, PATHS, AUDIO
+from libs.config import TTS, AUDIO
 from utils.logger import log_info, log_error
 from utils.text_processing import prepare_text_for_silero
 
@@ -14,7 +14,7 @@ from utils.text_processing import prepare_text_for_silero
 class TTSEngineStreaming:
     def __init__(self):
         try:
-            self.model = torch.package.PackageImporter(PATHS["silero_model"]).load_pickle(
+            self.model = torch.package.PackageImporter(TTS["silero_model"]).load_pickle(
                 "tts_models", "model"
             )
             self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -177,11 +177,11 @@ TTS = TTSEngineStreaming()
 
 if __name__ == "__main__":
     TEXT = (
-        "Внимание внимание, работники БЕЛАЗа. "
-        "Снегурочка и Дед Мороз дали нам задание. "
+        "В+нимание в+нимание, раб+отники БЕЛ+АЗа. "
+        "Снег+урочка и Д+ед М+ороз дали нам задание. "
         "Создать проект Техно-ёлки две тысячи двадцать пять. "
         "Сделать надо качественно, надёжно и креативно. "
-        "Всё в стиле БЕЛАЗа. Понятно?"
+        "Всё в стиле БЕЛАЗа. Понятно!?"
     )
     TTS.speak_streaming(TEXT)
     print("end")

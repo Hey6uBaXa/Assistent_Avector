@@ -138,7 +138,7 @@ class unitreeRemoteController:
                     self.t2.start()
                     self.t3.start()
                     self.index = self.index + 1
-                    if self.index > 5:
+                    if self.index > 9:
                         self.index = 1
                     self.flag2 = False
         elif not self.F3 and not self.flag2:
@@ -147,70 +147,67 @@ class unitreeRemoteController:
         if self.Start:
             if self.flag3:
                 self.index = 1
-                self.index_fu = 6
                 print("restart")
                 self.flag3 = False
         elif not self.flag3 and not self.Start:
                 self.flag3 = True
 
-        if self.B:
-            if self.t2 is None or not self.t2.is_alive():
-                if self.flag2:
-                    #self.t2 = threading.Thread(target=RobotInterface.cristmas_tree_event_voice, args=(self.index_fu,))
-                    self.t2 = threading.Thread(target=RobotInterface.give_hand)
-                    self.t2.start()
-                    self.index_fu = self.index_fu + 1
-                    if self.index_fu > 15:
-                        self.index_fu = 6
-                    self.flag2 = False
-        elif not self.F3 and not self.flag2:
-                self.flag2 = True
+        # if self.B:
+        #     if self.t2 is None or not self.t2.is_alive():
+        #         if self.flag2:
+        #             self.t2 = threading.Thread(target=RobotInterface.cristmas_tree_event_voice, args=(self.index_fu,))
+        #             self.t2 = threading.Thread(target=RobotInterface.give_hand)
+        #             self.t2.start()
+        #             self.index_fu = self.index_fu + 1
+        #             if self.index_fu > 3:
+        #                 self.index_fu = 1
+        #             self.flag2 = False
+        # elif not self.F3 and not self.flag2:
+        #         self.flag2 = True
 
         if self.Up:
             if self.t2 is None or not self.t2.is_alive():
                 if self.flag2:
-                    self.t2 = threading.Thread(target=RobotInterface.cristmas_tree_event_voice, args=(2,))
-                    self.t3 = threading.Thread(target=RobotInterface.cristmas_tree_event_action, args=(2,))
+                    self.t2 = threading.Thread(target=RobotInterface.requested_phrase, args=(1,))
+                    self.t3 = threading.Thread(target=RobotInterface.cristmas_tree_event_action, args=(1,))
                     self.t2.start()
                     self.t3.start()
                     self.flag2 = False
-        elif not self.F3 and not self.flag2:
+        elif not self.Up and not self.flag2:
                 self.flag2 = True
         
         if self.Right:
             if self.t2 is None or not self.t2.is_alive():
                 if self.flag2:
-                    self.t2 = threading.Thread(target=RobotInterface.cristmas_tree_event_voice, args=(3,))
-                    self.t3 = threading.Thread(target=RobotInterface.cristmas_tree_event_action, args=(3,))
+                    self.t2 = threading.Thread(target=RobotInterface.requested_phrase, args=(2,))
+                    self.t3 = threading.Thread(target=RobotInterface.cristmas_tree_event_action, args=(2,))
                     self.t2.start()
                     self.t3.start()
                     self.flag2 = False
-        elif not self.F3 and not self.flag2:
+        elif not self.Right and not self.flag2:
                 self.flag2 = True
 
         if self.Down:
             if self.t2 is None or not self.t2.is_alive():
                 if self.flag2:
-                    self.t2 = threading.Thread(target=RobotInterface.cristmas_tree_event_voice, args=(4,))
-                    self.t3 = threading.Thread(target=RobotInterface.cristmas_tree_event_action, args=(4,))
+                    self.t2 = threading.Thread(target=RobotInterface.requested_phrase, args=(3,))
+                    self.t3 = threading.Thread(target=RobotInterface.cristmas_tree_event_action, args=(3,))
                     self.t2.start()
                     self.t3.start()
                     self.flag2 = False
-        elif not self.F3 and not self.flag2:
+        elif not self.Down and not self.flag2:
                 self.flag2 = True
 
         if self.Left:
             if self.t2 is None or not self.t2.is_alive():
                 if self.flag2:
-                    self.t2 = threading.Thread(target=RobotInterface.cristmas_tree_event_voice, args=(5,))
-                    self.t3 = threading.Thread(target=RobotInterface.cristmas_tree_event_action, args=(5,))
+                    self.t2 = threading.Thread(target=RobotInterface.requested_phrase, args=(4,))
+                    self.t3 = threading.Thread(target=RobotInterface.cristmas_tree_event_action, args=(4,))
                     self.t2.start()
                     self.t3.start()
                     self.flag2 = False
-        elif not self.F3 and not self.flag2:
+        elif not self.Left and not self.flag2:
                 self.flag2 = True
-
-
 
         if self.L1:
             if self.t4 is None or not self.t4.is_alive():

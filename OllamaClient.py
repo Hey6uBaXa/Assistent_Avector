@@ -79,4 +79,4 @@ class OllamaClient:
 LLM_Client = OllamaClient()
 
 if __name__ == "__main__":
-    TTS.speak_streaming(LLM_Client.ask("Расскажи анекдот"))
+    TTS.speak_streaming(LLM_Client.ask("сделай шаг вперёд"))

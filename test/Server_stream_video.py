@@ -5,7 +5,7 @@ import time
 
 app = Flask(__name__)
 
-cap = cv2.VideoCapture(2)  # подставь нужный индекс RealSense
+cap = cv2.VideoCapture(4)  # подставь нужный индекс RealSense
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 

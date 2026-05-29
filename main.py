@@ -47,7 +47,7 @@ def active_dialog_loop():
             TTS.speak_streaming(reply)
     except Exception as e:
         log_error(f"Ошибка в active_dialog_loop: {e}")
-    finally:
+    finally: 
         RobotInterface.set_led(r=0, g=0, b=255)
         time.sleep(1)
         

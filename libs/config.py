@@ -43,8 +43,6 @@ def wait_for_jbl(timeout=60, interval=2):
 OUTPUT = find_device("JBL", kind="output")#wait_for_jbl(timeout=90, interval=2)
 INPUT = find_device("BOYA", kind="input")
 
-
-
 # 🎧 Аудио
 AUDIO = {
     "sample_rate": 48000,
@@ -52,14 +50,6 @@ AUDIO = {
     "channels": 1,
     "input_device": INPUT if INPUT is not None else sd.default.device[0],
     "output_device": OUTPUT if OUTPUT is not None else sd.default.device[1]
-}
-
-# 📁 Пути к моделям
-PATHS = {
-    #"vosk_model_ru": "models/vosk-model-ru-0.42", # models/vosk-model-small-ru-0.22 / models/vosk-model-ru-0.42
-    "vosk_model_ru": "models/vosk-model-small-ru-0.22", # models/vosk-model-small-ru-0.22 / models/vosk-model-ru-0.42
-    "vosk_model_en": "models/vosk-model-small-en-us-0.15",
-    "silero_model": "models/silero-model-v3-ru/v3_ru.pt"
 }
 
 # Роль
@@ -120,13 +110,33 @@ DIALOG = {
 }
 
 # 🗣️ Озвучка
+
 TTS = {
-    "default_speaker": "eugene", # should be in aidar (m), baya (w), kseniya (w), xenia (w), eugene (m), random
-    "silero_sample_rate": 48000, #16000, 32000, 48000
-    "model_path" : "models/ru_RU-dmitri-medium.onnx",
-    "config_path" : "models/ru_RU-dmitri-medium.onnx.json",
-    "volume" : 0.08, #0.1 - 10%, 0.5 - 50%, 1.0 - 100%
+    "default_speaker": "xenia", # should be in aidar (m), baya (w), kseniya (w), xenia (w), eugene (m), random
+    "silero_sample_rate": 48000, #8000, 24000, 48000
+    "silero_model": "models/silero-model-v5-ru/v5_5_ru.pt", 
+    "volume" : 0.1, #0.1 - 10%, 0.5 - 50%, 1.0 - 100%,
 }
+
+# Распознание голоса 
+STT = {
+    "vosk_model_ru": "models/vosk-model-small-ru-0.22", # models/vosk-model-small-ru-0.22 / models/vosk-model-ru-0.42
+    "vosk_model_en": "models/vosk-model-small-en-us-0.15",
+}
+
+# Фразы для произнощения
+PHRASES = {
+    1 : "Центр управления полетами Пром агра лизинг. Ваши планы — на орбите согласования. "
+        "Нужна поддержка с Земли. Приглашаю на стэнд Пром агра лизинг для расчета данных полета." ,
+    2: "Внимание! Пром агра лизенг готов к старту. Ваше желание — на орбите наших возможностей." ,
+    3: "С Промагра лизинг ваши цели достигают космоса! Приходи к нам на стенд. Мы работаем с космической скоростью. " ,
+    4: "Здравствуйте! Я — робот-навигатор лизинговых полётов. Чем могу помочь в вашем путешествии?" ,
+    5: "Добро пожаловать на космическую базу Пром агра лизинг!!!! Готовы взлететь к новым возможностям?" ,
+    6: "Я робот, но даже я понимаю: лизинг выгоднее кредита! Потому что я считаю цифры, а не эмоции!" ,
+    7: "Если бы я мог взять ракету в лизинг, я бы уже летал на Марс. А вы? Хотите технику на Земле?" ,
+    8: "Я не астронавт, но я знаю: чтобы лететь высоко, нужна хорошая ракета. Ваша ракета — это Пром агра лизинг!" ,
+    9: "C Пром агра лизинг, как в космосе, нет гравитации,! У нас легко получить лизинг, легко осуществить мечту, легко платить!"
+        }
 
 TEXT = {
     "text_1": 

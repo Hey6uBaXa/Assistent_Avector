@@ -6,7 +6,7 @@ from unitree_sdk2py.g1.loco.g1_loco_client import LocoClient
 from pyModbusTCP.client import ModbusClient
 from utils.logger import log_info, log_error
 from tts_engine import TTS
-from libs.config import TEXT
+from libs.config import TEXT,PHRASES
 import threading
 
 class Hand:
@@ -256,131 +256,47 @@ class RobotInterface(Hand):
         self.right_hand.full_open()
         return "Рукопожатие выполнено"
     
-    def welcoming_movements(self):
-        self.perform_arm_action("face_wave")
-        time.sleep(1)
-        self.perform_arm_action("right_hand_on_heart")
-        time.sleep(2)
-        self.perform_arm_action("put_your_hands_down")
-        time.sleep(2)
-        self.perform_arm_action("extend_right_arm_forward")
-        time.sleep(2)
-        self.perform_arm_action("both_hands_up_deviate_right")
-        time.sleep(2)
-        self.perform_arm_action("put_your_hands_down")
-
-    def cristmas_tree_event_voice(self,number):
-        match number:
-            case 1:
-                TTS.speak_streaming("Вас приветствуют представители открытого акционерного общества «БЕЛАЗ» "
-                                "- управляющая компания холдинга «БЕЛАЗ-ХОЛДИНГ»!")
-            case 2:
-                TTS.speak_streaming("Не Василий, а Василёк! Потому что Василёк - это символ Белорусского союза женщин! А я их очень люблю! ")
-            case 3: 
-                TTS.speak_streaming( "«БЕЛАЗ» - новатор и стратег, "
-                            "Создали  ёлку,  лучше всех, "
-                            "Как наша ёлка, хороша!, "
-                            "Металла, звон, его душа, "
-                            "В ней доброта, и позитив, "
-                            "И украшений , креатив, "
-                            "Здесь качество, и интеллект, "
-                            "Рациональный, техпроект, "
-                            "Серьёзный, творческий подход, "
-                            "Чтобы с оптимизмом, – в новый год, "
-                            "Чтоб процветали, в добрый час, "
-                            "Наш БЭ СЭ ЖЕ, ____,    ПРОФ МАШ, ___,   БЕЛАЗЗ!" )
-            case 4:
-                TTS.speak_streaming( "Всё, верно, Надо только, пожать мне руку!")
-            case 5:
-                TTS.speak_streaming( "Я, Вижуу,  что в новом году, Дед Мороз, подарит тебе снегоход! ")
-
-            case 6:
-                TTS.speak_streaming( "Все проекты в новом году воплатятся в жизнь!")
-            case 7:
-                TTS.speak_streaming( "На работе вас ждёт большой успех!")
-            case 8:
-                TTS.speak_streaming( "В следующем году у вас будет много приятных знакомств ")
-            case 9:
-                TTS.speak_streaming( "В новом году вы преодолеете все препятствия")
-            case 10:
-                TTS.speak_streaming( "Следующий год окажется для вас плодотворным ")
-            case 11:
-                TTS.speak_streaming( "Вас ожидает счастливое событие в Новом году")
-            case 12:
-                TTS.speak_streaming( "В новом году вы полны сил и новых идей")
-            case 13:
-                TTS.speak_streaming( "В две тысячи двадцать шестом году вас ожидает приятное приобретение")
-            case 14:
-                TTS.speak_streaming( "Вы будете в Новом году много путешествовать ")
-            case 15:
-                TTS.speak_streaming( "Скоро вы получите приятный бонус за старания")
-            # case 7:
-            #     TTS.speak_streaming("Загружаю праздничное сообщение, для команды АВЕЕКТИС, "
-            #                         "Ухо дящий год, открыл для команды, новые точки роста, и достижений, " \
-            #                         "а для меня — первый рабочий год в «АВЕЕКТИС», Вместе мы выходим на новый уровень, " \
-            #                         "где опыт, знания и командный дух, соединяются с точностью, скоростью, и возможностями новых технологий, "
-            #                         "я создан, чтобы помогать, ускорять процессы, и открывать новые горизонты для компании, " \
-            #                         "но даже самые современные алгоритмы, работают лучше, всего рядом с сильной, профессиональной командой, " \
-            #                         "И именно такой командой, вы и являетесь, "
-            #                         "в наступающем году желаю вам смелых целей, уверенных решений, и проектов, которыми можно гордиться, " \
-            #                         "Пусть «АВЕЕКТИС» продолжает расти, внедрять инновации, и задавать тэмп, " \
-            #                         "а каждый из вас, чувствует свою ценность, и вклад в наше общее деело,"
-            #                         ",Поздравляяю , с Новым гооооодом")
+    def requested_phrase(self,number):
+        TTS.speak_streaming(PHRASES[number])
                 
     def cristmas_tree_event_action(self,number):
         match number:
-            case 1:
+            case 1 | 5:        
+                self.perform_arm_action("face_wave")
+                time.sleep(1)
+                self.perform_arm_action("right_hand_on_heart")
+                time.sleep(2)
+                self.perform_arm_action("put_your_hands_down")
+                time.sleep(2)
+                self.perform_arm_action("extend_right_arm_forward")
+                time.sleep(2)
+                self.perform_arm_action("both_hands_up_deviate_right")
+                time.sleep(2)
+                self.perform_arm_action("put_your_hands_down")
+            
+            case 2 | 6 | 9:
                 time.sleep(3)
                 self.perform_arm_action("face_wave")
-                #TTS.speak_streaming("Вас приветствуют представители открытого акционерного общества «БЕЛАЗ» "
-                #"- управляющая компания холдинга «БЕЛАЗ-ХОЛДИНГ»!")
                 self.perform_arm_action("right_hand_on_heart")
                 time.sleep(1)
                 self.perform_arm_action("put_your_hands_down")
 
-            case 2:        
+            case 3 | 7:        
                 time.sleep(3)
                 self.perform_arm_action("extend_right_arm_forward")
                 time.sleep(1)
                 self.perform_arm_action("put_your_hands_down")
-                #TTS.speak_streaming("Не Василий, а Василёк! Потому что Василёк - это символ Белорусского союза женщин! А я их очень люблю! ")
                 self.perform_arm_action("right_kiss")
-            case 3:
+            
+            case 4 | 8:
                 time.sleep(2)
                 self.perform_arm_action("hands_up")
                 time.sleep(0.5)
                 self.perform_arm_action("put_your_hands_down")
 
-                self.perform_arm_action("right_hand_on_heart")
-                time.sleep(0.4)
-                self.perform_arm_action("put_your_hands_down")
-
                 self.perform_arm_action("both_hands_up_deviate_right")
                 time.sleep(1)
                 self.perform_arm_action("put_your_hands_down")
-
-                self.perform_arm_action("right_kiss")
-                time.sleep(0.5)
-                self.perform_arm_action("put_your_hands_down")
-
-                self.perform_arm_action("clap")
-                time.sleep(0.5)
-                self.perform_arm_action("put_your_hands_down")
-                #стешок
-
-            case 4:
-                time.sleep(2)
-                #self.handshake()
-                #TTS.speak_streaming( "Всё верно! Надо только пожать мне руку!")
-            case 5:
-                self.perform_arm_action("right_hand_up")
-                time.sleep(6)
-                self.perform_arm_action("put_your_hands_down")
-                #TTS.speak_streaming( "Вижу, что в новом году Дед Мороз подарит тебе снегоход! ")
-            case 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15:
-                self.perform_arm_action("right_hand_up")
-                # time.sleep(10)
-                # self.perform_arm_action("put_your_hands_down")
 
     def welcoming_speech(self):
         TTS.speak_streaming("Приветствую. Я робот А ве к тор. Приглашаю вас принять "
@@ -396,7 +312,8 @@ class RobotInterface(Hand):
 RobotInterface = RobotInterface()
 
 if __name__ == "__main__":
-    RobotInterface.handshake()
+    # RobotInterface.handshake()
+    RobotInterface.requested_phrase(9)
     # t1_voice = threading.Thread(target=RobotInterface.cristmas_tree_event_voice,args=(5,))
     # t1_action = threading.Thread(target=RobotInterface.cristmas_tree_event_action,args=(5,))
     # t1_voice.start()
